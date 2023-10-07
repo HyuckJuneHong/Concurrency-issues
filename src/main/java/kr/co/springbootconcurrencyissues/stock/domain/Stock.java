@@ -20,6 +20,9 @@ public class Stock {
     @Column
     private long quantity;
 
+    @Version
+    private long version;
+
     private Stock(long productId, long quantity) {
         this.productId = productId;
         this.quantity = quantity;
