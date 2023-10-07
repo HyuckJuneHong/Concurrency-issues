@@ -1,9 +1,7 @@
 package kr.co.springbootconcurrencyissues.stock.application;
 
-import kr.co.springbootconcurrencyissues.stock.domain.Stock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
