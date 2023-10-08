@@ -1,4 +1,4 @@
-package kr.co.springbootconcurrencyissues.stock.application;
+package kr.co.springbootconcurrencyissues.stock.application.facade;
 
 import kr.co.springbootconcurrencyissues.stock.domain.Stock;
 import kr.co.springbootconcurrencyissues.stock.domain.StockRepository;

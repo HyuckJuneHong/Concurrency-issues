@@ -1,5 +1,6 @@
-package kr.co.springbootconcurrencyissues.stock.application;
+package kr.co.springbootconcurrencyissues.stock.application.facade;
 
+import kr.co.springbootconcurrencyissues.stock.application.StockService;
 import kr.co.springbootconcurrencyissues.stock.domain.LockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
