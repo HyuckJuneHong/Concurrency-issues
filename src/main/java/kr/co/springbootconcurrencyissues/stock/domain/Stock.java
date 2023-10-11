@@ -15,26 +15,22 @@ public class Stock {
     private Long id;
 
     @Column
-    private long productId;
-
-    @Column
     private long quantity;
 
     @Version
     private long version;
 
-    private Stock(long productId, long quantity) {
-        this.productId = productId;
+    private Stock(long quantity) {
         this.quantity = quantity;
     }
 
-    public static Stock create(long productId, long quantity) {
-        return new Stock(productId, quantity);
+    public static Stock create(long quantity) {
+        return new Stock(quantity);
     }
 
     public void decrease(long quantity) {
         if (this.quantity - quantity < 0) {
-            throw new IllegalArgumentException("재고는 0개 미만이 될 수 없습니다.");
+            throw new IllegalArgumentException("쿠키는 0개 미만이 될 수 없습니다.");
         }
 
         this.quantity -= quantity;

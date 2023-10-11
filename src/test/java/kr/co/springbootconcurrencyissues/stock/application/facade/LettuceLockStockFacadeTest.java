@@ -2,6 +2,7 @@ package kr.co.springbootconcurrencyissues.stock.application.facade;
 
 import kr.co.springbootconcurrencyissues.stock.domain.Stock;
 import kr.co.springbootconcurrencyissues.stock.domain.StockRepository;
+import kr.co.springbootconcurrencyissues.stock.presentation.request.DecreaseReq;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,9 +25,12 @@ class LettuceLockStockFacadeTest {
     @Autowired
     private StockRepository stockRepository;
 
+    private DecreaseReq decreaseReq;
+
     @BeforeEach
     public void before() {
-        stockRepository.save(Stock.create(1, 100));
+        stockRepository.save(Stock.create(100));
+        decreaseReq = new DecreaseReq(1L, 1);
     }
 
     @AfterEach
@@ -46,7 +50,7 @@ class LettuceLockStockFacadeTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    stockFacade.decrease(1L, 1);
+                    stockFacade.decrease(decreaseReq);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 } finally {
