@@ -16,12 +16,15 @@ public class NamedLockStockFacade {
 
     @Transactional
     public long decrease(DecreaseReq decreaseReq) {
-        try {
-            lockRepository.getLock(decreaseReq.id().toString());
+        lockRepository.getLock(decreaseReq.id().toString());
+        long quantity;
 
-            return stockService.decrease(decreaseReq);
+        try {
+            quantity = stockService.decrease(decreaseReq);
         } finally {
             lockRepository.releaseLock(decreaseReq.id().toString());
         }
+
+        return quantity;
     }
 }
