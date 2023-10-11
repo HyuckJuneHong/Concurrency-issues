@@ -2,6 +2,7 @@ package kr.co.springbootconcurrencyissues.stock.application.facade;
 
 import kr.co.springbootconcurrencyissues.stock.application.StockService;
 import kr.co.springbootconcurrencyissues.stock.domain.LockRepository;
+import kr.co.springbootconcurrencyissues.stock.presentation.request.DecreaseReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,12 +15,13 @@ public class NamedLockStockFacade {
     private final StockService stockService;
 
     @Transactional
-    public void decrease(Long id, long quantity) {
+    public long decrease(DecreaseReq decreaseReq) {
         try {
-            lockRepository.getLock(id.toString());
-            stockService.decrease(id, quantity);
+            lockRepository.getLock(decreaseReq.id().toString());
+
+            return stockService.decrease(decreaseReq);
         } finally {
-            lockRepository.releaseLock(id.toString());
+            lockRepository.releaseLock(decreaseReq.id().toString());
         }
     }
 }

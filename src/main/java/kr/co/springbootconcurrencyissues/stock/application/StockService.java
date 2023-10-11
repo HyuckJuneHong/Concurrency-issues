@@ -2,6 +2,7 @@ package kr.co.springbootconcurrencyissues.stock.application;
 
 import kr.co.springbootconcurrencyissues.stock.domain.Stock;
 import kr.co.springbootconcurrencyissues.stock.domain.StockRepository;
+import kr.co.springbootconcurrencyissues.stock.presentation.request.DecreaseReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,9 +15,11 @@ public class StockService {
     private final StockRepository stockRepository;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void decrease(Long id, long quantity) {
-        Stock stock = stockRepository.findById(id)
+    public long decrease(DecreaseReq decreaseReq) {
+        Stock stock = stockRepository.findById(decreaseReq.id())
                 .orElseThrow(() -> new IllegalArgumentException("not found stock by id"));
-        stock.decrease(quantity);
+        stock.decrease(decreaseReq.quantity());
+
+        return stock.getQuantity();
     }
 }
