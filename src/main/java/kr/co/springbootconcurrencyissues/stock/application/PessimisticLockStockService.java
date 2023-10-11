@@ -2,6 +2,7 @@ package kr.co.springbootconcurrencyissues.stock.application;
 
 import kr.co.springbootconcurrencyissues.stock.domain.Stock;
 import kr.co.springbootconcurrencyissues.stock.domain.StockRepository;
+import kr.co.springbootconcurrencyissues.stock.presentation.request.DecreaseReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +14,11 @@ public class PessimisticLockStockService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public void decrease(Long id, long quantity) {
-        Stock stock = stockRepository.findByIdWithPessimisticLock(id)
+    public long decrease(DecreaseReq decreaseReq) {
+        Stock stock = stockRepository.findByIdWithPessimisticLock(decreaseReq.id())
                 .orElseThrow(() -> new IllegalArgumentException("not found stock by id"));
-        stock.decrease(quantity);
+        stock.decrease(decreaseReq.quantity());
+
+        return stock.getQuantity();
     }
 }
