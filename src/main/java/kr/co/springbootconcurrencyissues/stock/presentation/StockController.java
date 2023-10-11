@@ -1,6 +1,7 @@
 package kr.co.springbootconcurrencyissues.stock.presentation;
 
 import kr.co.springbootconcurrencyissues.stock.application.PessimisticLockStockService;
+import kr.co.springbootconcurrencyissues.stock.application.StockService;
 import kr.co.springbootconcurrencyissues.stock.application.facade.OptimisticLockStockFacade;
 import kr.co.springbootconcurrencyissues.stock.presentation.request.DecreaseReq;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/stocks")
 public class StockController {
 
+    private final StockService stockService;
     private final OptimisticLockStockFacade optimisticLockStockFacade;
     private final PessimisticLockStockService pessimisticLockStockService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.OK)
+    public long decrease(@RequestBody DecreaseReq decreaseReq) throws InterruptedException {
+        return stockService.decrease(decreaseReq);
+    }
 
     @PostMapping("/pessimistic")
     @ResponseStatus(HttpStatus.OK)
